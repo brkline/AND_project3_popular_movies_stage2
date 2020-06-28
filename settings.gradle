@@ -1,0 +1,2 @@
+include ':app'
+rootProject.name = "AND_project3_popular_movies_stage2"
