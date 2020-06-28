@@ -2,12 +2,15 @@ package com.example.and_project3_popular_movies_stage2;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.and_project3_popular_movies_stage2.databinding.ActivityMainBinding;
+import com.example.and_project3_popular_movies_stage2.databinding.ActivityMovieDetailBinding;
 import com.example.and_project3_popular_movies_stage2.models.Movie;
 import com.squareup.picasso.Picasso;
 
@@ -17,11 +20,15 @@ public class MovieDetailActivity extends AppCompatActivity {
     public static final String MOVIE_EXTRA = "movie";
     private static final int DEFAULT_POSITION = -1;
     private static final String RELEASE_DATE_SEPARATOR = "-";
+    private ActivityMovieDetailBinding activityMovieDetailBinding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_movie_detail);
+//        setContentView(R.layout.activity_movie_detail);
+        activityMovieDetailBinding = ActivityMovieDetailBinding.inflate(getLayoutInflater());
+        View view = activityMovieDetailBinding.getRoot();
+        setContentView(view);
         // Code below based on Udacity Sandwich App starter code
         Intent intent = getIntent();
         if (intent == null) {
@@ -51,11 +58,11 @@ public class MovieDetailActivity extends AppCompatActivity {
 
     private void populateUI(Movie movieIn) {
 
-        TextView titleTextView = findViewById(R.id.title_tv);
-        ImageView posterImageView = findViewById(R.id.poster_image_iv);
-        TextView releaseDateTextView = findViewById(R.id.release_date_tv);
-        TextView averageRatingTextView = findViewById(R.id.average_rating_tv);
-        TextView synopsisTextView = findViewById(R.id.synopsis_tv);
+        TextView titleTextView = activityMovieDetailBinding.titleTv;
+        ImageView posterImageView = activityMovieDetailBinding.posterImageIv;
+        TextView releaseDateTextView = activityMovieDetailBinding.releaseDateTv;
+        TextView averageRatingTextView = activityMovieDetailBinding.averageRatingTv;
+        TextView synopsisTextView = activityMovieDetailBinding.synopsisTv;
 
         titleTextView.setText(movieIn.getTitle());
 

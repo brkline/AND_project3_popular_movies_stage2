@@ -1,12 +1,5 @@
 package com.example.and_project3_popular_movies_stage2;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.loader.app.LoaderManager;
-import androidx.loader.content.Loader;
-import androidx.preference.PreferenceManager;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -14,10 +7,16 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.GridView;
-import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.loader.app.LoaderManager;
+import androidx.loader.content.Loader;
+import androidx.preference.PreferenceManager;
 
 import com.example.and_project3_popular_movies_stage2.adapters.MovieAdapter;
+import com.example.and_project3_popular_movies_stage2.databinding.ActivityMainBinding;
 import com.example.and_project3_popular_movies_stage2.models.Movie;
 import com.example.and_project3_popular_movies_stage2.utils.CheckIfOnline;
 import com.example.and_project3_popular_movies_stage2.utils.MovieLoader;
@@ -30,17 +29,17 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     private static final int MOVIE_LOADER_ID = 1;
 
     private List<Movie> movieList2;
-    private GridView gridView;
-    private TextView emptyStateTextView;
-//    private static final String EXTRA_POSITION = "extra_position";
-//    private static final String MOVIE_EXTRA = "movie";
+    //    private GridView gridView;
+//    private TextView emptyStateTextView;
+    private ActivityMainBinding activityMainBinding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        emptyStateTextView = findViewById(R.id.empty_view);
-
+        activityMainBinding = ActivityMainBinding.inflate(getLayoutInflater());
+        View view = activityMainBinding.getRoot();
+        setContentView(view);
+//        emptyStateTextView = findViewById(R.id.empty_view);
 
         // CheckIfOnline class based on https://stackoverflow.com/a/27312494
         new CheckIfOnline(new CheckIfOnline.Consumer() {
@@ -59,7 +58,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
                 } else {
                     // Set empty state text to display "No Internet Connection."
-                    emptyStateTextView.setText(R.string.no_internet_connection);
+//                    emptyStateTextView.setText(R.string.no_internet_connection);
+                    activityMainBinding.emptyView.setText(R.string.no_internet_connection);
                 }
             }
         });
@@ -67,8 +67,15 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         // sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         setupSharedPreferences();
         // Get a reference to the GridView
-        gridView = findViewById(R.id.main_fragment_gv);
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//        gridView = findViewById(R.id.main_fragment_gv);
+//        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                launchMovieDetailActivity(position);
+//            }
+//        });
+        activityMainBinding.mainFragmentGv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 launchMovieDetailActivity(position);
@@ -91,13 +98,13 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         if (movieList != null && !movieList.isEmpty()) {
 
             MovieAdapter movieAdapter = new MovieAdapter(this, movieList);
-            gridView.setAdapter(movieAdapter);
+            activityMainBinding.mainFragmentGv.setAdapter(movieAdapter);
             movieList2 = movieList;
 
         } else {
 
             // Set empty state text to display "No Movies found."
-            emptyStateTextView.setText(R.string.no_movies);
+            activityMainBinding.emptyView.setText(R.string.no_movies);
         }
     }
 
