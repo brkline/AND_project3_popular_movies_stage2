@@ -7,8 +7,6 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceFragmentCompat;
 
-import com.example.and_project3_popular_movies_stage2.databinding.ActivityMovieSettingsBinding;
-
 public class MovieSettingsActivity extends AppCompatActivity {
 
     @Override

@@ -19,7 +19,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/colorTitleLinearLayout"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <TextView
                 android:id="@+id/title_tv"
@@ -78,8 +80,8 @@
             android:id="@+id/synopsis_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/synopsis_tv_marginStart"
-            android:layout_marginLeft="@dimen/synopsis_tv_marginStart"
+            android:layout_marginStart="@dimen/movie_detail_default_margin"
+            android:layout_marginLeft="@dimen/movie_detail_default_margin"
             android:layout_marginTop="@dimen/synopsis_tv_marginTop"
             android:paddingEnd="@dimen/synopsis_tv_paddingRight"
             android:paddingRight="@dimen/synopsis_tv_paddingRight"
@@ -88,5 +90,53 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/poster_image_iv"
             tools:text="Large TextView" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/review_rv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/synopsis_tv"
+            android:layout_marginStart="@dimen/movie_review_default_margin"
+            android:layout_marginLeft="@dimen/movie_review_default_margin"
+            android:layout_marginRight="@dimen/movie_review_default_margin"
+            android:layout_marginTop="@dimen/movie_review_default_margin" />
+
+        <TextView
+            android:id="@+id/no_reviews_available_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/synopsis_tv"
+            android:layout_marginStart="@dimen/movie_review_default_margin"
+            android:layout_marginLeft="@dimen/movie_review_default_margin"
+            android:layout_marginRight="@dimen/movie_review_default_margin"
+            android:layout_marginTop="@dimen/movie_review_default_margin" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/trailers_rv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/review_rv"
+            android:layout_marginStart="@dimen/movie_review_default_margin"
+            android:layout_marginLeft="@dimen/movie_review_default_margin"
+            android:layout_marginRight="@dimen/movie_review_default_margin"
+            android:layout_marginTop="@dimen/movie_review_default_margin" />
+
+        <TextView
+            android:id="@+id/no_trailers_available_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/review_rv"
+            android:layout_marginStart="@dimen/movie_trailer_default_margin"
+            android:layout_marginLeft="@dimen/movie_trailer_default_margin"
+            android:layout_marginRight="@dimen/movie_trailer_default_margin"
+            android:layout_marginTop="@dimen/movie_trailer_default_margin" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

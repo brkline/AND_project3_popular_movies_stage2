@@ -1,5 +1,6 @@
 package com.example.and_project3_popular_movies_stage2.utils;
 
+import android.net.Uri;
 import android.util.Log;
 
 import com.example.and_project3_popular_movies_stage2.models.Movie;
@@ -20,35 +21,47 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MovieHelper {
+public class NetworkUtils {
+
+    private static final String API_QUERY_PARAM = "api_key";
     private static final String LOG_TAG = MovieHelper.class.getSimpleName();
     private static final int URL_READ_TIMEOUT = 10000;
     private static final int URL_SET_CONNECTION_TIMEOUT = 15000;
+    private static URL url;
 
-    /**
-     * Query the MovieDB dataset and return a list of {@link Movie} objects.
-     */
-    public static List<Movie> fetchMovies(String requestUrl) {
+    public static URL urlBuilderQueryAll(String searchQuery) {
 
-        // Create URL object
-        URL url = createUrl(requestUrl);
-        // Perform HTTP request to the URL and receive a JSON response back
-        String jsonResponse = null;
+        Uri uri = Uri.parse(Movie.THEMOVIEDB_REQUEST_URL).buildUpon()
+                .appendEncodedPath(searchQuery)
+                .appendQueryParameter(API_QUERY_PARAM, Movie.API_KEY)
+                .build();
         try {
-            jsonResponse = makeHttpRequest(url);
-        } catch (IOException e) {
-            Log.e(LOG_TAG, "Problem making the HTTP request.", e);
+            url = new URL(url.toString());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (NullPointerException e) {
+            e.printStackTrace();
         }
 
-        // Return the list of {@link Movie}s
-        return parseJson(jsonResponse);
+        return url;
+    }
+
+    public static URL urlBuilderQueryMovieId(String movieId, String searchQuery) {
+
+        Uri uri = Uri.parse(Movie.THEMOVIEDB_REQUEST_URL).buildUpon()
+                .appendEncodedPath(movieId)
+                .appendEncodedPath(searchQuery)
+                .appendQueryParameter(API_QUERY_PARAM, Movie.API_KEY)
+                .build();
+
+        url = createUrl(uri.toString());
+        return url;
     }
 
     /**
      * Returns new URL object from the given string URL.
      */
     private static URL createUrl(String stringUrl) {
-        URL url = null;
         try {
             url = new URL(stringUrl);
         } catch (MalformedURLException e) {
@@ -60,7 +73,7 @@ public class MovieHelper {
     /**
      * Make an HTTP request to the given URL and return a String as the response.
      */
-    private static String makeHttpRequest(URL url) throws IOException {
+    public static String makeHttpRequest(URL url) throws IOException {
         String jsonResponse = "";
 
         // If the URL is null, then return early.
@@ -123,7 +136,7 @@ public class MovieHelper {
      * Return a list of {@link Movie} objects that has been built up from
      * parsing the given JSON response.
      */
-    public static List<Movie> parseJson(String movieJSON) {
+    public static List<Movie> parseMovieJson(String movieJSON) {
 
         // Create an empty ArrayList that we can start adding news items to
         List<Movie> movieList = new ArrayList<>();
@@ -181,7 +194,61 @@ public class MovieHelper {
             Log.e(LOG_TAG, "Problem parsing the movie JSON results", e);
         }
 
-        // Return the list of news items
+        // Return the list of movies
         return movieList;
+    }
+
+    /**
+     * Return a list of {@link Review} objects that has been built up from
+     * parsing the given JSON response.
+     */
+    public static List<Review> parseMovieReviewJson(String reviewJSON) {
+
+        // Create an empty ArrayList that we can start adding news items to
+        List<Review> reviews = new ArrayList<>();
+
+        // Try to parse the JSON response string. If there's a problem with the way the JSON
+        // is formatted, a JSONException exception object will be thrown.
+        // Catch the exception so the app doesn't crash, and print the error message to the logs.
+        try {
+
+            // Create a JSONObject from the JSON response string
+            JSONObject baseJsonResponse = new JSONObject(reviewJSON);
+
+            // Get page and total results
+            String currentPage = baseJsonResponse.getString(Movie.PAGE_KEY);
+            String totalResults = baseJsonResponse.getString(Movie.TOTAL_RESULTS_KEY);
+            String totalPages = baseJsonResponse.getString(Movie.TOTAL_PAGES_KEY);
+
+            // Extract the JSONArray which represents a list of results from the query.
+            JSONArray resultsArray = baseJsonResponse.getJSONArray(Movie.RESULTS_KEY);
+
+            // For each movie in the resultsArray, create an {@link Movie} object
+            for (int i = 0; i < resultsArray.length(); i++) {
+
+                // Get a single review at position i within the list of movies
+                JSONObject currentReview = resultsArray.getJSONObject(i);
+
+                String reviewId = currentReview.getString(Movie.ID_KEY);
+                String reviewAuthor = currentReview.getString(Review.AUTHOR_KEY);
+                String reviewContent = currentReview.getString(Review.CONTENT_KEY);
+                String url = currentReview.getString(Review.REVIEW_URL);
+                URL reviewUrl = createUrl(url);
+                // Create a new {@link Review} object
+                Review review = new Review(reviewId, reviewAuthor, reviewContent, reviewUrl);
+
+                // Add the new {@link Review} to the list of reviews.
+                reviews.add(review);
+            }
+
+        } catch (JSONException e) {
+            // If an error is thrown when executing any of the above statements in the "try" block,
+            // catch the exception here, so the app doesn't crash. Print a log message
+            // with the message from the exception.
+            Log.e(LOG_TAG, "Problem parsing the movie review JSON results", e);
+        }
+
+        // Return the list of movie reviews
+        return reviews;
     }
 }

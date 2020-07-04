@@ -12,7 +12,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.example.and_project3_popular_movies_stage2.MainActivity">
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -20,19 +20,19 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.example.and_project3_popular_movies_stage2.MovieSettingsActivity"
+            android:name=".MovieSettingsActivity"
             android:label="@string/movie_settings_sort_title">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.and_project3_popular_movies_stage2.MovieSettingsActivity" />
         </activity>
-        <activity android:name="com.example.and_project3_popular_movies_stage2.MovieDetailActivity"
-            android:parentActivityName="com.example.and_project3_popular_movies_stage2.MainActivity">
+        <activity
+            android:name=".MovieDetailActivity"
+            android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.and_project3_popular_movies_stage2.MovieDetailActivity" />
         </activity>
-
     </application>
 
 </manifest>

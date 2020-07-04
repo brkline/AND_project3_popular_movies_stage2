@@ -7,6 +7,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.GridView;
+import android.widget.TextView;
+
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,29 +19,40 @@ import androidx.loader.content.Loader;
 import androidx.preference.PreferenceManager;
 
 import com.example.and_project3_popular_movies_stage2.adapters.MovieAdapter;
-import com.example.and_project3_popular_movies_stage2.databinding.ActivityMainBinding;
 import com.example.and_project3_popular_movies_stage2.models.Movie;
 import com.example.and_project3_popular_movies_stage2.utils.CheckIfOnline;
 import com.example.and_project3_popular_movies_stage2.utils.MovieLoader;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Movie>>, SharedPreferences.OnSharedPreferenceChangeListener {
 
-    // Constant value for the news items loader ID.
+    // Constant value for the movie item loader ID.
     private static final int MOVIE_LOADER_ID = 1;
 
     private List<Movie> movieList2;
+
+    @BindView(R.id.empty_view)
+    public TextView emptyStateTextView;
+
+    @BindView(R.id.main_fragment_gv)
+    public GridView gridView;
+
+
     //    private GridView gridView;
 //    private TextView emptyStateTextView;
-    private ActivityMainBinding activityMainBinding;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        activityMainBinding = ActivityMainBinding.inflate(getLayoutInflater());
-        View view = activityMainBinding.getRoot();
-        setContentView(view);
+//        activityMainBinding = ActivityMainBinding.inflate(getLayoutInflater());
+//        View view = activityMainBinding.getRoot();
+        setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
 //        emptyStateTextView = findViewById(R.id.empty_view);
 
         // CheckIfOnline class based on https://stackoverflow.com/a/27312494
@@ -59,7 +73,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 } else {
                     // Set empty state text to display "No Internet Connection."
 //                    emptyStateTextView.setText(R.string.no_internet_connection);
-                    activityMainBinding.emptyView.setText(R.string.no_internet_connection);
+                    emptyStateTextView.setText(R.string.no_internet_connection);
                 }
             }
         });
@@ -74,7 +88,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 //                launchMovieDetailActivity(position);
 //            }
 //        });
-        activityMainBinding.mainFragmentGv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -98,13 +113,13 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         if (movieList != null && !movieList.isEmpty()) {
 
             MovieAdapter movieAdapter = new MovieAdapter(this, movieList);
-            activityMainBinding.mainFragmentGv.setAdapter(movieAdapter);
+            gridView.setAdapter(movieAdapter);
             movieList2 = movieList;
 
         } else {
 
             // Set empty state text to display "No Movies found."
-            activityMainBinding.emptyView.setText(R.string.no_movies);
+            emptyStateTextView.setText(R.string.no_movies);
         }
     }
 

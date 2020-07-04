@@ -20,15 +20,15 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MovieHelper {
-    private static final String LOG_TAG = MovieHelper.class.getSimpleName();
+public class ReviewHelper {
+    private static final String LOG_TAG = ReviewHelper.class.getSimpleName();
     private static final int URL_READ_TIMEOUT = 10000;
     private static final int URL_SET_CONNECTION_TIMEOUT = 15000;
 
     /**
-     * Query the MovieDB dataset and return a list of {@link Movie} objects.
+     * Query the MovieDB dataset and return a list of {@link Review} objects.
      */
-    public static List<Movie> fetchMovies(String requestUrl) {
+    public static List<Review> fetchReviews(String requestUrl) {
 
         // Create URL object
         URL url = createUrl(requestUrl);
@@ -120,13 +120,13 @@ public class MovieHelper {
     }
 
     /**
-     * Return a list of {@link Movie} objects that has been built up from
+     * Return a list of {@link Review} objects that has been built up from
      * parsing the given JSON response.
      */
-    public static List<Movie> parseJson(String movieJSON) {
+    public static List<Review> parseJson(String reviewJSON) {
 
         // Create an empty ArrayList that we can start adding news items to
-        List<Movie> movieList = new ArrayList<>();
+        List<Review> reviews = new ArrayList<>();
 
         // Try to parse the JSON response string. If there's a problem with the way the JSON
         // is formatted, a JSONException exception object will be thrown.
@@ -134,7 +134,7 @@ public class MovieHelper {
         try {
 
             // Create a JSONObject from the JSON response string
-            JSONObject baseJsonResponse = new JSONObject(movieJSON);
+            JSONObject baseJsonResponse = new JSONObject(reviewJSON);
 
             // Get page and total results
             String currentPage = baseJsonResponse.getString(Movie.PAGE_KEY);
@@ -147,41 +147,29 @@ public class MovieHelper {
             // For each movie in the resultsArray, create an {@link Movie} object
             for (int i = 0; i < resultsArray.length(); i++) {
 
-                // Get a single movie at position i within the list of movies
-                JSONObject currentMovie = resultsArray.getJSONObject(i);
+                // Get a single review at position i within the list of movies
+                JSONObject currentReview = resultsArray.getJSONObject(i);
 
-                String voteCount = currentMovie.getString(Movie.VOTE_COUNT_KEY);
-                String id = currentMovie.getString(Movie.ID_KEY);
-                String video = currentMovie.getString(Movie.VIDEO_KEY);
-                String voteAverage = currentMovie.getString(Movie.VOTE_AVERAGE_KEY);
-                String title = currentMovie.getString(Movie.TITLE_KEY);
-                String popularity = currentMovie.getString(Movie.POPULARITY_KEY);
-                String posterPath = currentMovie.getString(Movie.POSTER_PATH_KEY);
-                String originalLanguage = currentMovie.getString(Movie.ORIGINAL_LANGUAGE_KEY);
-                String originalTitle = currentMovie.getString(Movie.ORIGINAL_TITLE_KEY);
-                String genreIds = currentMovie.getString(Movie.GENRE_IDS_KEY);
-                String backdropPath = currentMovie.getString(Movie.BACKDROP_PATH_KEY);
-                String adult = currentMovie.getString(Movie.ADULT_KEY);
-                String overview = currentMovie.getString(Movie.OVERVIEW_KEY);
-                String releaseDate = currentMovie.getString(Movie.RELEASE_DATE_KEY);
+                String reviewId = currentReview.getString(Movie.ID_KEY);
+                String reviewAuthor = currentReview.getString(Review.AUTHOR_KEY);
+                String reviewContent = currentReview.getString(Review.CONTENT_KEY);
+                String url = currentReview.getString(Review.REVIEW_URL);
+                URL reviewUrl = createUrl(url);
+                // Create a new {@link Review} object
+                Review review = new Review(reviewId, reviewAuthor, reviewContent, reviewUrl);
 
-                // Create a new {@link Movie} object
-                Movie movie = new Movie(currentPage, totalResults, totalPages, voteCount, id,
-                        video, voteAverage, title, popularity, posterPath, originalLanguage,
-                        originalTitle, genreIds, backdropPath, adult, overview, releaseDate, "0");
-
-                // Add the new {@link Movie} to the list of movies.
-                movieList.add(movie);
+                // Add the new {@link Review} to the list of reviews.
+                reviews.add(review);
             }
 
         } catch (JSONException e) {
             // If an error is thrown when executing any of the above statements in the "try" block,
             // catch the exception here, so the app doesn't crash. Print a log message
             // with the message from the exception.
-            Log.e(LOG_TAG, "Problem parsing the movie JSON results", e);
+            Log.e(LOG_TAG, "Problem parsing the movie review JSON results", e);
         }
 
         // Return the list of news items
-        return movieList;
+        return reviews;
     }
 }

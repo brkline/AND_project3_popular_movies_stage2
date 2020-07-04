@@ -4,6 +4,14 @@ import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
+
+import java.util.List;
+
+@Entity(tableName = "movies_table")
 public class Movie implements Parcelable {
     public static final String PAGE_KEY = "page";
     public static final String TOTAL_RESULTS_KEY = "total_results";
@@ -25,24 +33,15 @@ public class Movie implements Parcelable {
     public static final String RESULTS_KEY = "results";
     public static final String THEMOVIEDB_REQUEST_URL = "https://api.themoviedb.org/3/movie";
     public static final String API_KEY = "Get Your Own Key";
-    public static final Creator<Movie> CREATOR = new Creator<Movie>() {
-        @Override
-        public Movie createFromParcel(Parcel in) {
-            return new Movie(in);
-        }
-
-        @Override
-        public Movie[] newArray(int size) {
-            return new Movie[size];
-        }
-    };
-
     private static final String BASE_IMAGE_URL = "https://image.tmdb.org/t/p";
     private static final String POSTER_SIZE = "w185";
+
     private String page;
     private String totalResults;
     private String totalPages;
     private String voteCount;
+    @PrimaryKey
+    @NonNull
     private String id;
     private String video;
     private String voteAverage;
@@ -56,6 +55,12 @@ public class Movie implements Parcelable {
     private String adult;
     private String overview;
     private String releaseDate;
+    private String isFavorite;
+//    private String reviewId;
+//    private String reviewAuthor;
+//    private String reviewContent;
+//    private String reviewUrl;
+//    private List<Trailer> movieTrailers;
 
     private Movie(Parcel in) {
         page = in.readString();
@@ -75,15 +80,22 @@ public class Movie implements Parcelable {
         adult = in.readString();
         overview = in.readString();
         releaseDate = in.readString();
+        isFavorite = in.readString();
+//        reviewId = in.readString();
+//        reviewAuthor = in.readString();
+//        reviewContent = in.readString();
+//        reviewUrl = in.readString();
     }
 
+    @Ignore
     public Movie() {
     }
 
     public Movie(String page, String totalResults, String totalPages, String voteCount, String id,
                  String video, String voteAverage, String title, String popularity, String posterPath,
-                 String originalLanguage, String originalTitle, String genreIds, String
-                         backdropPath, String adult, String overview, String releaseDate) {
+                 String originalLanguage, String originalTitle, String genreIds,
+                 String backdropPath, String adult, String overview, String releaseDate,
+                 String isFavorite) {
         this.page = page;
         this.totalResults = totalResults;
         this.totalPages = totalPages;
@@ -101,6 +113,11 @@ public class Movie implements Parcelable {
         this.adult = adult;
         this.overview = overview;
         this.releaseDate = releaseDate;
+        this.isFavorite = isFavorite;
+//        this.reviewId = reviewId;
+//        this.reviewAuthor = reviewAuthor;
+//        this.reviewContent = reviewContent;
+//        this.reviewUrl = reviewUrl;
     }
 
     @Override
@@ -108,6 +125,7 @@ public class Movie implements Parcelable {
         return 0;
     }
 
+    @Ignore
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(page);
@@ -127,6 +145,11 @@ public class Movie implements Parcelable {
         dest.writeString(adult);
         dest.writeString(overview);
         dest.writeString(releaseDate);
+        dest.writeString(isFavorite);
+//        dest.writeString(reviewId);
+//        dest.writeString(reviewAuthor);
+//        dest.writeString(reviewContent);
+//        dest.writeString(reviewUrl);
     }
 
     public String getPage() {
@@ -265,6 +288,50 @@ public class Movie implements Parcelable {
         this.releaseDate = releaseDate;
     }
 
+    public String isFavoriteMovie() {
+        return isFavorite;
+    }
+
+    public String getIsFavorite() {
+        return isFavorite;
+    }
+
+//    public String getReviewId() {
+//        return reviewId;
+//    }
+//
+//    public void setReviewId(String reviewId) {
+//        this.reviewId = reviewId;
+//    }
+//
+//    public String getReviewAuthor() {
+//        return reviewAuthor;
+//    }
+//
+//    public void setReviewAuthor(String reviewAuthor) {
+//        this.reviewAuthor = reviewAuthor;
+//    }
+//
+//    public String getReviewContent() {
+//        return reviewContent;
+//    }
+//
+//    public void setReviewContent(String reviewContent) {
+//        this.reviewContent = reviewContent;
+//    }
+//
+//    public String getReviewUrl() {
+//        return reviewUrl;
+//    }
+//
+//    public void setReviewUrl(String reviewUrl) {
+//        this.reviewUrl = reviewUrl;
+//    }
+
+    public void setFavoriteMovie(String favoriteMovie) {
+        isFavorite = favoriteMovie;
+    }
+
     public Uri getMoviePosterImage(String posterUrl) {
         // parse breaks apart the URI string that's passed into its parameter
         Uri moviePosterUri = Uri.parse(BASE_IMAGE_URL);
@@ -279,4 +346,17 @@ public class Movie implements Parcelable {
         moviePosterUri = Uri.parse(uriBuilder.toString());
         return moviePosterUri;
     }
+
+    public static final Creator<Movie> CREATOR = new Creator<Movie>() {
+        @Override
+        public Movie createFromParcel(Parcel in) {
+            return new Movie(in);
+        }
+
+        @Override
+        public Movie[] newArray(int size) {
+            return new Movie[size];
+        }
+    };
+
 }
