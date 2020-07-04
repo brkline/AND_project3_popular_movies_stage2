@@ -31,4 +31,25 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="movie_trailer_default_margin">16dp</dimen>
     <dimen name="movie_trailer_default_margin_top">24dp</dimen>
+    <dimen name="review_section_default_margin">16dp</dimen>
+    <dimen name="review_recyclerview_default_margin">16dp</dimen>
+    <dimen name="review_section_title_textsize">18sp</dimen>
+    <dimen name="video_section_default_margin">16dp</dimen>
+    <dimen name="video_section_title_textsize">18sp</dimen>
+    <dimen name="review_content_default_padding">8dp</dimen>
+    <dimen name="review_content_textview_marginbottom">24dp</dimen>
+    <dimen name="video_title_default_margin">16dp</dimen>
+    <dimen name="video_thumbnail_layout_width">250dp</dimen>
+    <dimen name="video_thumbnail_layout_height">150dp</dimen>
+    <dimen name="video_title_layout_width">0dp</dimen>
+    <dimen name="video_play_button_default_margin">8dp</dimen>
+    <dimen name="video_title_paddingtop">8dp</dimen>
+    <dimen name="video_title_paddingbottom">16dp</dimen>
+    <dimen name="movie_video_default_margin">16dp</dimen>
+    <dimen name="movie_video_default_margin_top">24dp</dimen>
+    <dimen name="toggle_favorite_btn_layout_width">48dp</dimen>
+    <dimen name="toggle_favorite_btn_layout_height">48dp</dimen>
+    <dimen name="toggle_favorite_btn_margintop">16dp</dimen>
+    <dimen name="toggle_favorite_btn_marginleft">36dp</dimen>
+    <dimen name="video_list_item_constraintlayout_paddingbottom">24dp</dimen>
 </resources>

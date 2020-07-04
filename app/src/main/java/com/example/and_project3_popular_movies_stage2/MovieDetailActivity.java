@@ -1,6 +1,5 @@
 package com.example.and_project3_popular_movies_stage2;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -8,22 +7,20 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.and_project3_popular_movies_stage2.adapters.MovieVideosAdapter;
 import com.example.and_project3_popular_movies_stage2.adapters.ReviewsAdapter;
-import com.example.and_project3_popular_movies_stage2.data.MovieDatabase;
 import com.example.and_project3_popular_movies_stage2.models.Movie;
 import com.example.and_project3_popular_movies_stage2.models.Review;
-import com.example.and_project3_popular_movies_stage2.models.Trailer;
+import com.example.and_project3_popular_movies_stage2.models.Video;
 import com.example.and_project3_popular_movies_stage2.utils.NetworkUtils;
 import com.squareup.picasso.Picasso;
-
-import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.net.URL;
@@ -31,7 +28,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.Optional;
 
 public class MovieDetailActivity extends AppCompatActivity {
 
@@ -41,16 +37,19 @@ public class MovieDetailActivity extends AppCompatActivity {
     private static final String RELEASE_DATE_SEPARATOR = "-";
     public final static String REVIEW_QUERY = "reviews";
     public final static String VIDEO_QUERY = "videos";
-    public final static String YOUTUBE_BASE_APP = "vnd.youtube:";
-    public final static String YOUTUBE_BASE_URL = "http://www.youtube.com/watch?v=";
 
     private static String movieId;
-    private static List<Trailer> movieTrailers;
+    private static List<Review> movieReview;
+    private static List<Video> movieVideos;
     private ReviewsAdapter movieReviewsAdapter;
     private MovieDetailActivityViewModel movieDetailActivityViewModel;
+    private MovieVideosAdapter movieVideosAdapter;
+//    private MovieDetailActivityViewModel movieDetailActivityViewModel;
 
     @BindView(R.id.review_rv)
     RecyclerView reviewRecyclerView;
+    @BindView(R.id.videos_rv)
+    RecyclerView videoRecyclerView;
     @BindView(R.id.title_tv)
     TextView titleTextView;
     @BindView(R.id.poster_image_iv)
@@ -61,14 +60,12 @@ public class MovieDetailActivity extends AppCompatActivity {
     TextView averageRatingTextView;
     @BindView(R.id.synopsis_tv)
     TextView synopsisTextView;
-    @Nullable
-    @BindView(R.id.reviewer_tv)
-    TextView reviewAuthor;
-    @Nullable
-    @BindView(R.id.review_content_tv)
-    TextView reviewContent;
     @BindView(R.id.no_reviews_available_tv)
     TextView reviewEmptyStateTextView;
+    @BindView(R.id.no_videos_available_tv)
+    TextView videoEmptyStateTextView;
+    @BindView(R.id.toggle_favorite_btn)
+    ToggleButton favoriteToggle;
 
 
     @Override
@@ -97,19 +94,7 @@ public class MovieDetailActivity extends AppCompatActivity {
 
         movieId = movie.getId();
         boolean isFavorite = Boolean.parseBoolean(movie.getIsFavorite());
-//        AsyncTask.execute(() -> {
-//            if (isFavorite)
-////                movie = MovieDatabase.getDatabase(this).movieDao().getFavoriteMovieById(movieId);
-//
-//        });
 
-
-
-//        RecyclerView.LayoutManager reviewLayoutManager = new LinearLayoutManager(this);
-//        reviewRecyclerView.setLayoutManager(reviewLayoutManager);
-//        reviewRecyclerView.setAdapter(movieReviewsAdapter);
-//        RecyclerView.LayoutManager trailerLayoutManager = new LinearLayoutManager(this);
-//        activityMovieDetailBinding.trailersRv.setLayoutManager(trailerLayoutManager);
         populateUI(movie);
 
     }
@@ -146,6 +131,7 @@ public class MovieDetailActivity extends AppCompatActivity {
         synopsisTextView.setText(movieIn.getOverview());
 
         new getMovieReviewsTask().execute(movieId, REVIEW_QUERY);
+        new getMovieVideosTask().execute(movieId, VIDEO_QUERY);
 
     }
 
@@ -173,10 +159,52 @@ public class MovieDetailActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(List<Review> movieReviews) {
             if (!movieReviews.isEmpty()) {
+                reviewEmptyStateTextView.setVisibility(View.GONE);
                 movieReviewsAdapter = new ReviewsAdapter(MovieDetailActivity.this, movieReviews);
                 RecyclerView.LayoutManager reviewLayoutManager = new LinearLayoutManager(MovieDetailActivity.this);
+                reviewRecyclerView.setVisibility(View.VISIBLE);
                 reviewRecyclerView.setLayoutManager(reviewLayoutManager);
                 reviewRecyclerView.setAdapter(movieReviewsAdapter);
+            } else {
+                reviewEmptyStateTextView.setVisibility(View.VISIBLE);
+                reviewRecyclerView.setVisibility(View.INVISIBLE);
+            }
+        }
+    }
+
+    private class getMovieVideosTask extends AsyncTask<String, Void, List<Video>> {
+
+        @Override
+        protected List<Video> doInBackground(String... strings) {
+            if (strings.length == 0) {
+                return null;
+            }
+
+            String movieId = strings[0];
+            String queryType = strings[1];
+            URL movieVideoUrl = NetworkUtils.urlBuilderQueryMovieId(movieId, queryType);
+
+            try {
+                String movieTrailerJson = NetworkUtils.makeHttpRequest(movieVideoUrl);
+                return NetworkUtils.parseMovieVideoJson(movieTrailerJson);
+            } catch (IOException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(List<Video> movieVideos) {
+            if (!movieVideos.isEmpty()) {
+                videoEmptyStateTextView.setVisibility(View.GONE);
+                movieVideosAdapter = new MovieVideosAdapter(MovieDetailActivity.this, movieVideos);
+                RecyclerView.LayoutManager videoLayoutManager = new LinearLayoutManager(MovieDetailActivity.this);
+                videoRecyclerView.setLayoutManager(videoLayoutManager);
+                videoRecyclerView.setVisibility(View.VISIBLE);
+                videoRecyclerView.setAdapter(movieVideosAdapter);
+            } else {
+                videoRecyclerView.setVisibility(View.GONE);
+                videoEmptyStateTextView.setVisibility(View.VISIBLE);
             }
         }
     }

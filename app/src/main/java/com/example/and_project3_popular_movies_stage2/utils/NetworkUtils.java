@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.example.and_project3_popular_movies_stage2.models.Movie;
 import com.example.and_project3_popular_movies_stage2.models.Review;
+import com.example.and_project3_popular_movies_stage2.models.Video;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -61,7 +62,7 @@ public class NetworkUtils {
     /**
      * Returns new URL object from the given string URL.
      */
-    private static URL createUrl(String stringUrl) {
+    public static URL createUrl(String stringUrl) {
         try {
             url = new URL(stringUrl);
         } catch (MalformedURLException e) {
@@ -223,10 +224,10 @@ public class NetworkUtils {
             // Extract the JSONArray which represents a list of results from the query.
             JSONArray resultsArray = baseJsonResponse.getJSONArray(Movie.RESULTS_KEY);
 
-            // For each movie in the resultsArray, create an {@link Movie} object
+            // For each review in the resultsArray, create an {@link Review} object
             for (int i = 0; i < resultsArray.length(); i++) {
 
-                // Get a single review at position i within the list of movies
+                // Get a single review at position i within the list of reviews
                 JSONObject currentReview = resultsArray.getJSONObject(i);
 
                 String reviewId = currentReview.getString(Movie.ID_KEY);
@@ -250,5 +251,60 @@ public class NetworkUtils {
 
         // Return the list of movie reviews
         return reviews;
+    }
+
+    /**
+     * Return a list of {@link Video} objects that has been built up from
+     * parsing the given JSON response.
+     */
+    public static List<Video> parseMovieVideoJson(String trailerJSON) {
+
+        // Create an empty ArrayList that we can start adding news items to
+        List<Video> videos = new ArrayList<>();
+
+        // Try to parse the JSON response string. If there's a problem with the way the JSON
+        // is formatted, a JSONException exception object will be thrown.
+        // Catch the exception so the app doesn't crash, and print the error message to the logs.
+        try {
+
+            // Create a JSONObject from the JSON response string
+            JSONObject baseJsonResponse = new JSONObject(trailerJSON);
+
+            // Extract the JSONArray which represents a list of results from the query.
+            JSONArray resultsArray = baseJsonResponse.getJSONArray(Movie.RESULTS_KEY);
+
+            // For each video in the resultsArray, create an {@link Movie} object
+            for (int i = 0; i < resultsArray.length(); i++) {
+
+                // Get a single trailer at position i within the list of movies
+                JSONObject currentVideo = resultsArray.getJSONObject(i);
+                if (currentVideo.getString(Video.VIDEO_TYPE_KEY).equalsIgnoreCase("trailer")) {
+                    String videoId = currentVideo.getString(Movie.ID_KEY);
+                    String videoKey = currentVideo.getString(Video.VIDEO_KEY_KEY);
+                    String videoTitle = currentVideo.getString(Video.VIDEO_TITLE_KEY);
+                    String videoSite = currentVideo.getString(Video.VIDEO_SITE_KEY);
+                    String videoType = currentVideo.getString(Video.VIDEO_TYPE_KEY);
+
+                    // Create a new {@link Trailer} object
+                    Video video = new Video(videoId,
+                                            videoKey,
+                                            videoSite,
+                                            videoTitle,
+                                            videoType);
+
+                    // Add the new {@link Trailer} to the list of trailers.
+                    videos.add(video);
+                }
+            }
+
+        } catch (JSONException e) {
+            // If an error is thrown when executing any of the above statements in the "try" block,
+            // catch the exception here, so the app doesn't crash. Print a log message
+            // with the message from the exception.
+            Log.e(LOG_TAG, "Problem parsing the movie video JSON results", e);
+        }
+
+        // Return the list of movie reviews
+        return videos;
     }
 }

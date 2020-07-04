@@ -76,13 +76,29 @@
             app:layout_constraintTop_toBottomOf="@+id/release_date_tv"
             tools:text="7.5/10" />
 
+        <ToggleButton
+            android:id="@+id/toggle_favorite_btn"
+            android:layout_width="@dimen/toggle_favorite_btn_layout_width"
+            android:layout_height="@dimen/toggle_favorite_btn_layout_height"
+            android:layout_marginStart="@dimen/toggle_favorite_btn_marginleft"
+            android:layout_marginLeft="@dimen/toggle_favorite_btn_marginleft"
+            android:layout_marginTop="@dimen/toggle_favorite_btn_margintop"
+            android:background="@drawable/ic_baseline_favorite_border_48"
+            android:checked="false"
+            android:text=""
+            android:textOff=""
+            android:textOn=""
+            app:layout_constraintStart_toEndOf="@+id/poster_image_iv"
+            app:layout_constraintTop_toBottomOf="@+id/average_rating_tv" />
+
         <TextView
             android:id="@+id/synopsis_tv"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/movie_detail_default_margin"
             android:layout_marginLeft="@dimen/movie_detail_default_margin"
             android:layout_marginTop="@dimen/synopsis_tv_marginTop"
+            android:layout_marginRight="@dimen/movie_detail_default_margin"
             android:paddingEnd="@dimen/synopsis_tv_paddingRight"
             android:paddingRight="@dimen/synopsis_tv_paddingRight"
             android:paddingBottom="@dimen/synopsis_tv_paddingBottom"
@@ -91,52 +107,80 @@
             app:layout_constraintTop_toBottomOf="@+id/poster_image_iv"
             tools:text="Large TextView" />
 
+        <TextView
+            android:id="@+id/review_content_section_title_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/review_section_default_margin"
+            android:text="@string/review_section_title"
+            android:textAllCaps="true"
+            android:textSize="@dimen/review_section_title_textsize"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/synopsis_tv" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/review_rv"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_height="300dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="@dimen/review_recyclerview_default_margin"
+            android:layout_marginBottom="@dimen/review_recyclerview_default_margin"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/synopsis_tv"
-            android:layout_marginStart="@dimen/movie_review_default_margin"
-            android:layout_marginLeft="@dimen/movie_review_default_margin"
-            android:layout_marginRight="@dimen/movie_review_default_margin"
-            android:layout_marginTop="@dimen/movie_review_default_margin" />
+            app:layout_constraintTop_toBottomOf="@+id/review_content_section_title_tv" />
 
         <TextView
             android:id="@+id/no_reviews_available_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/synopsis_tv"
             android:layout_marginStart="@dimen/movie_review_default_margin"
             android:layout_marginLeft="@dimen/movie_review_default_margin"
-            android:layout_marginRight="@dimen/movie_review_default_margin"
-            android:layout_marginTop="@dimen/movie_review_default_margin" />
+            android:layout_marginBottom="@dimen/movie_review_default_margin"
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/trailers_rv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:text="@string/no_reviews_text"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/review_rv"
-            android:layout_marginStart="@dimen/movie_review_default_margin"
-            android:layout_marginLeft="@dimen/movie_review_default_margin"
-            android:layout_marginRight="@dimen/movie_review_default_margin"
-            android:layout_marginTop="@dimen/movie_review_default_margin" />
+            app:layout_constraintTop_toBottomOf="@+id/review_content_section_title_tv" />
 
         <TextView
-            android:id="@+id/no_trailers_available_tv"
+            android:id="@+id/video_section_title_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/video_section_default_margin"
+            android:layout_marginLeft="@dimen/video_section_default_margin"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="@dimen/video_section_default_margin"
+            android:text="@string/video_section_title"
+            android:textAllCaps="true"
+            android:textSize="@dimen/video_section_title_textsize"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/videos_rv"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/review_rv" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/videos_rv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/movie_video_default_margin"
+            android:layout_marginLeft="@dimen/movie_video_default_margin"
+            android:layout_marginTop="@dimen/movie_video_default_margin_top"
+            android:layout_marginBottom="@dimen/movie_video_default_margin"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/review_rv"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/no_videos_available_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/movie_trailer_default_margin"
             android:layout_marginLeft="@dimen/movie_trailer_default_margin"
-            android:layout_marginRight="@dimen/movie_trailer_default_margin"
-            android:layout_marginTop="@dimen/movie_trailer_default_margin" />
+            android:text="@string/no_videos_text"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/video_section_title_tv" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

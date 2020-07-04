@@ -31,13 +31,11 @@
         <xliff:g example="6.5/10" id="rating">%1$s</xliff:g>/10
     </string>
     <string name="title_activity_favorite_movies_view_model">FavoriteMoviesViewModel</string>
-    <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
 
-    <string name="hello_first_fragment">Hello first fragment</string>
-    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="reviewer_label">Written By:</string>
+    <string name="no_reviews_text">We\'re sorry but we were unable to find any reviews</string>
+    <string name="no_videos_text">We\'re sorry but we were unable to find any videos</string>
+    <string name="review_section_title">Reviews:</string>
+    <string name="video_section_title">Videos:</string>
 
 </resources>

@@ -7,7 +7,7 @@ This is Project 3 for the Udacity Android Developer Nanodegree.  This app will:
 - Show you a grid of movie posters from [The Movie DB](https://themoviedb.org).
 - Allow you to change the Sort order through a Settings menu.
 - Allow you to tap on a movie poster to see additional details.
-- View and play trailers (either in the youtube app or a web browser).
+- View and play videos (either in the youtube app or a web browser).
 - Read reviews of a selected movie.
 - Mark a movie as a favorite in the details view by tapping a button (star).
 - Use Android Architecture Components (Room, LiveData, ViewModel and Lifecycle) to create a robust and efficient application.
