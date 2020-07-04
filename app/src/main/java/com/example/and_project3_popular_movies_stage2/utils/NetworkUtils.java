@@ -182,7 +182,7 @@ public class NetworkUtils {
                 // Create a new {@link Movie} object
                 Movie movie = new Movie(currentPage, totalResults, totalPages, voteCount, id,
                         video, voteAverage, title, popularity, posterPath, originalLanguage,
-                        originalTitle, genreIds, backdropPath, adult, overview, releaseDate, "0");
+                        originalTitle, genreIds, backdropPath, adult, overview, releaseDate);
 
                 // Add the new {@link Movie} to the list of movies.
                 movieList.add(movie);

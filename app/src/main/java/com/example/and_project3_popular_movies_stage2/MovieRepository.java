@@ -38,13 +38,13 @@ class MovieRepository {
         });
     }
 
-    public void updateFavoriteMovie(String movieId, boolean isFavorite) {
-        MovieDatabase.databaseWriteExecture.execute(() -> {
-            movieDao.updateFavoriteMovie(movieId, isFavorite);
-        });
-    }
+//    public void updateFavoriteMovie(String movieId, boolean isFavorite) {
+//        MovieDatabase.databaseWriteExecture.execute(() -> {
+//            movieDao.updateFavoriteMovie(movieId, isFavorite);
+//        });
+//    }
 
-    public boolean isFavorite(String movieId) {
-        return movieDao.isFavorite(movieId);
+    public LiveData<List<Movie>> isInDb(String movieId) {
+        return movieDao.isInDb(movieId);
     }
 }

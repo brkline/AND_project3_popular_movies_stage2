@@ -83,7 +83,7 @@
             android:layout_marginStart="@dimen/toggle_favorite_btn_marginleft"
             android:layout_marginLeft="@dimen/toggle_favorite_btn_marginleft"
             android:layout_marginTop="@dimen/toggle_favorite_btn_margintop"
-            android:background="@drawable/ic_baseline_favorite_border_48"
+            android:background="@drawable/favorite_toggle_image"
             android:checked="false"
             android:text=""
             android:textOff=""

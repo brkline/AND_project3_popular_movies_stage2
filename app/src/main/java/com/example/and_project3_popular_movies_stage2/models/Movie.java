@@ -80,7 +80,7 @@ public class Movie implements Parcelable {
         adult = in.readString();
         overview = in.readString();
         releaseDate = in.readString();
-        isFavorite = in.readString();
+//        isFavorite = in.readString();
 //        reviewId = in.readString();
 //        reviewAuthor = in.readString();
 //        reviewContent = in.readString();
@@ -94,8 +94,7 @@ public class Movie implements Parcelable {
     public Movie(String page, String totalResults, String totalPages, String voteCount, String id,
                  String video, String voteAverage, String title, String popularity, String posterPath,
                  String originalLanguage, String originalTitle, String genreIds,
-                 String backdropPath, String adult, String overview, String releaseDate,
-                 String isFavorite) {
+                 String backdropPath, String adult, String overview, String releaseDate) {
         this.page = page;
         this.totalResults = totalResults;
         this.totalPages = totalPages;
@@ -113,7 +112,7 @@ public class Movie implements Parcelable {
         this.adult = adult;
         this.overview = overview;
         this.releaseDate = releaseDate;
-        this.isFavorite = isFavorite;
+//        this.isFavorite = isFavorite;
 //        this.reviewId = reviewId;
 //        this.reviewAuthor = reviewAuthor;
 //        this.reviewContent = reviewContent;
@@ -145,7 +144,7 @@ public class Movie implements Parcelable {
         dest.writeString(adult);
         dest.writeString(overview);
         dest.writeString(releaseDate);
-        dest.writeString(isFavorite);
+//        dest.writeString(isFavorite);
 //        dest.writeString(reviewId);
 //        dest.writeString(reviewAuthor);
 //        dest.writeString(reviewContent);
@@ -292,6 +291,9 @@ public class Movie implements Parcelable {
         return isFavorite;
     }
 
+    public void setIsFavorite(String isFavorite) {
+        this.isFavorite = isFavorite;
+    }
     public String getIsFavorite() {
         return isFavorite;
     }

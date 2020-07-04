@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Drawable Selector based on post found here:
+https://stackoverflow.com/a/43961078 -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Checked -->
+    <item android:drawable="@drawable/ic_baseline_favorite_48"
+        android:state_checked="true" />
+    <!-- Unchecked -->
+    <item android:drawable="@drawable/ic_baseline_favorite_border_48"
+        android:state_checked="false" />
+</selector>

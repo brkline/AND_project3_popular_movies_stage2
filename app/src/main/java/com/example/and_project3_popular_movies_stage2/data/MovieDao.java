@@ -20,8 +20,8 @@ public interface MovieDao {
     @Delete
     void deleteFavoriteMovie(Movie movie);
 
-    @Query("SELECT isFavorite FROM movies_table WHERE id = :movieId")
-    boolean isFavorite(String movieId);
+    @Query("SELECT * FROM movies_table WHERE id = :movieId")
+    LiveData<List<Movie>> isInDb(String movieId);
 
     @Query("DELETE FROM movies_table")
     void deleteAllFavorites();
@@ -32,6 +32,6 @@ public interface MovieDao {
     @Query("SELECT * FROM movies_table")
     LiveData<List<Movie>> getAllFavoriteMovies();
 
-    @Query("UPDATE movies_table SET isFavorite = :isFavorite WHERE id = :movieId")
-    void updateFavoriteMovie(String movieId, boolean isFavorite);
+//    @Query("UPDATE movies_table SET isFavorite = :isFavorite WHERE id = :movieId")
+//    void updateFavoriteMovie(String movieId, boolean isFavorite);
 }

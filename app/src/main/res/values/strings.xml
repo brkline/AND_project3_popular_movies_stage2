@@ -37,5 +37,8 @@
     <string name="no_videos_text">We\'re sorry but we were unable to find any videos</string>
     <string name="review_section_title">Reviews:</string>
     <string name="video_section_title">Videos:</string>
+    <string name="primary_menu_top_rated">Sort by Top Rated</string>
+    <string name="primary_menu_most_popular">Sort by Most Popular</string>
+    <string name="primary_menu_show_favorites">Show Favorites</string>
 
 </resources>

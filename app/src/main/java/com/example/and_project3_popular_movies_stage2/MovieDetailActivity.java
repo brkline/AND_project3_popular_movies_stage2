@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,6 +39,7 @@ public class MovieDetailActivity extends AppCompatActivity {
     public final static String REVIEW_QUERY = "reviews";
     public final static String VIDEO_QUERY = "videos";
 
+    private Movie movie;
     private static String movieId;
     private static List<Review> movieReview;
     private static List<Video> movieVideos;
@@ -75,6 +77,7 @@ public class MovieDetailActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         MovieDetailActivityViewModel movieDetailActivityViewModel = new ViewModelProvider(this).get(MovieDetailActivityViewModel.class);
+
         // Code below based on Udacity Sandwich App starter code
         Intent intent = getIntent();
         if (null == intent) {
@@ -87,13 +90,29 @@ public class MovieDetailActivity extends AppCompatActivity {
             closeOnError();
         }
         // We should have been passed a Movie object so retrieve it
-        Movie movie = intent.getParcelableExtra(MOVIE_EXTRA);
+        movie = intent.getParcelableExtra(MOVIE_EXTRA);
         if (null == movie) {
             closeOnError();
         }
 
         movieId = movie.getId();
-        boolean isFavorite = Boolean.parseBoolean(movie.getIsFavorite());
+        favoriteToggle.setChecked(false);
+
+        // Favorite button logic and animation based on
+        // https://medium.com/@rashi.karanpuria/create-beautiful-toggle-buttons-in-android-64d299050dfb
+        setFavoriteToggle(movieId);
+        favoriteToggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    movieDetailActivityViewModel.insertFavoriteMovie(movie);
+                    favoriteToggle.setChecked(true);
+                } else {
+                    movieDetailActivityViewModel.deleteFavoriteMovie(movie);
+                    favoriteToggle.setChecked(false);
+                }
+            }
+        });
 
         populateUI(movie);
 
@@ -132,7 +151,18 @@ public class MovieDetailActivity extends AppCompatActivity {
 
         new getMovieReviewsTask().execute(movieId, REVIEW_QUERY);
         new getMovieVideosTask().execute(movieId, VIDEO_QUERY);
+    }
 
+    private void setFavoriteToggle(String movieId) {
+        MovieDetailActivityViewModel movieDetailActivityViewModel =
+                new ViewModelProvider(this).get(MovieDetailActivityViewModel.class);
+
+        movieDetailActivityViewModel.isInDb(movieId).observe(this, returnMovie -> {
+
+            if (!returnMovie.isEmpty()) {
+                favoriteToggle.setChecked(true);
+            }
+        });
     }
 
     private class getMovieReviewsTask extends AsyncTask<String, Void, List<Review>> {
@@ -208,4 +238,25 @@ public class MovieDetailActivity extends AppCompatActivity {
             }
         }
     }
+
+//    private class setFavoriteToggle extends AsyncTask<String, Void, Boolean> {
+//
+//        @Override
+//        protected void onPostExecute(Boolean isFavorite) {
+//            if (isFavorite) {
+//                favoriteToggle.setChecked(true);
+//            }
+//        }
+//
+//        @Override
+//        protected Boolean doInBackground(String... strings) {
+//            if (strings.length == 0) {
+//                return null;
+//            }
+//
+//            String movieId = strings[0];
+//
+//            return movieDetailActivityViewModel.isFavorite(movieId);
+//        }
+//    }
 }

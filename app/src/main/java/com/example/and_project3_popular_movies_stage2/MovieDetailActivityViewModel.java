@@ -4,10 +4,11 @@ import android.app.Application;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
 
-import com.example.and_project3_popular_movies_stage2.MovieRepository;
-import com.example.and_project3_popular_movies_stage2.data.MovieDatabase;
 import com.example.and_project3_popular_movies_stage2.models.Movie;
+
+import java.util.List;
 
 public class MovieDetailActivityViewModel extends AndroidViewModel {
     private MovieRepository movieRepository;
@@ -17,8 +18,8 @@ public class MovieDetailActivityViewModel extends AndroidViewModel {
         movieRepository = new MovieRepository(application);
     }
 
-    public boolean isFavorite(String movieId) {
-        return movieRepository.isFavorite(movieId);}
+    public LiveData<List<Movie>> isInDb(String movieId) {
+        return movieRepository.isInDb(movieId);}
 
     public void insertFavoriteMovie(Movie movie) {
         movieRepository.insertFavoriteMovie(movie);
@@ -28,7 +29,7 @@ public class MovieDetailActivityViewModel extends AndroidViewModel {
         movieRepository.deleteFavoriteMovie(movie);
     }
 
-    public void updateFavoriteMovie(String movieId, boolean isFavorite) {
-        movieRepository.updateFavoriteMovie(movieId, isFavorite);
-    }
+//    public void updateFavoriteMovie(String movieId, boolean isFavorite) {
+//        movieRepository.updateFavoriteMovie(movieId, isFavorite);
+//    }
 }
