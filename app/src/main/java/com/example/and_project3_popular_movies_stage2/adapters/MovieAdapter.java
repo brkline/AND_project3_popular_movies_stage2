@@ -47,7 +47,6 @@ public class MovieAdapter extends ArrayAdapter<Movie> {
 
         ImageView moviePosterView = (ImageView) convertView.findViewById(R.id.poster_image_iv);
 
-
         if (movieList != null) {
             String posterImageUrl = movieList.getPosterPath();
 
@@ -55,10 +54,8 @@ public class MovieAdapter extends ArrayAdapter<Movie> {
                     .load(movieList.getMoviePosterImage(posterImageUrl))
                     .into(moviePosterView);
             moviePosterView.setContentDescription(movieList.getTitle());
-
         }
 
         return convertView;
     }
-
 }

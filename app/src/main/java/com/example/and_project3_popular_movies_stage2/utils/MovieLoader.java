@@ -1,13 +1,10 @@
 package com.example.and_project3_popular_movies_stage2.utils;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.net.Uri;
 
 import androidx.loader.content.AsyncTaskLoader;
-import androidx.preference.PreferenceManager;
 
-import com.example.and_project3_popular_movies_stage2.R;
 import com.example.and_project3_popular_movies_stage2.models.Movie;
 
 import java.util.List;
@@ -44,10 +41,6 @@ public class MovieLoader extends AsyncTaskLoader<List<Movie>> {
         if (url == null) {
             return null;
         }
-//        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
-//
-//        String sortOrderSelected = sharedPrefs.getString(getContext().getString(R.string
-//                .movie_settings_sort_key), getContext().getString(R.string.movie_settings_sort_default));
 
         // parse breaks apart the URI string that's passed into its parameter
         Uri baseUri = Uri.parse(Movie.THEMOVIEDB_REQUEST_URL);

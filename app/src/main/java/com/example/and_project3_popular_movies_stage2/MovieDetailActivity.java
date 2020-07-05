@@ -102,6 +102,7 @@ public class MovieDetailActivity extends AppCompatActivity {
         }
 
         movieId = movie.getId();
+        setTitle(movie.getTitle());
         favoriteToggle.setChecked(false);
 
         // Favorite button logic and animation based on
@@ -246,22 +247,13 @@ public class MovieDetailActivity extends AppCompatActivity {
     }
 
 
-    @Override
-    protected void onSaveInstanceState(Bundle out) {
-        out.putBoolean(MOST_POPULAR_SELECTED, mostPopularSelected);
-        out.putBoolean(TOP_RATED_SELECTED, topRatedSelected);
-        super.onSaveInstanceState(out);
-    }
+//    @Override
+//    protected void onSaveInstanceState(Bundle out) {
+//        out.putBoolean(MOST_POPULAR_SELECTED, mostPopularSelected);
+//        out.putBoolean(TOP_RATED_SELECTED, topRatedSelected);
+//        super.onSaveInstanceState(out);
+//    }
 
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            NavUtils.navigateUpFromSameTask(this);
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
 //    private class setFavoriteToggle extends AsyncTask<String, Void, Boolean> {
 //
 //        @Override

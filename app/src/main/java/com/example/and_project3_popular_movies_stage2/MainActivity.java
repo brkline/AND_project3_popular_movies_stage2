@@ -6,14 +6,13 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.TextView;
-
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.loader.app.LoaderManager;
 import androidx.loader.content.Loader;
 import androidx.preference.PreferenceManager;
@@ -30,7 +29,7 @@ import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Movie>> {
 
-    // Constant value for the movie item loader ID.
+    // Constant values
     private static final int MOVIE_LOADER_ID = 1;
     private static final String POPULAR = "popular";
     private static final String TOP_RATED = "top_rated";
@@ -41,6 +40,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     private List<Movie> movieList2;
     private boolean mostPopularSelected;
     private boolean topRatedSelected;
+    private MainActivityViewModel mainActivityViewModel;
+    MovieAdapter movieAdapter;
 
     @BindView(R.id.empty_view)
     public TextView emptyStateTextView;
@@ -48,7 +49,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @BindView(R.id.main_fragment_gv)
     public GridView gridView;
 
-    String queryType = POPULAR;
+    String queryType;
+    private boolean favoriteMoviesSelected;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,27 +67,38 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         }
         if (queryType.equalsIgnoreCase(POPULAR)) {
             setTitle(R.string.primary_menu_most_popular_title);
+            loadMovies(false);
+            mostPopularSelected = true;
+            topRatedSelected = false;
+            favoriteMoviesSelected = false;
         } else if (queryType.equalsIgnoreCase(TOP_RATED)) {
             setTitle(R.string.primary_menu_top_rated_title);
+            loadMovies(false);
+            mostPopularSelected = false;
+            topRatedSelected = true;
+            favoriteMoviesSelected = false;
         } else if (queryType.equalsIgnoreCase(FAVORITES)) {
             setTitle(R.string.primary_menu_favorites_title);
+            loadFavoriteMovies();
+            mostPopularSelected = false;
+            topRatedSelected = false;
+            favoriteMoviesSelected = true;
         }
 
-        loadMovies(false);
-        // Get a reference to the GridView
-//        gridView = findViewById(R.id.main_fragment_gv);
-//        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                launchMovieDetailActivity(position);
-//            }
-//        });
+        gridView.setOnItemClickListener((parent, view, position, id) -> launchMovieDetailActivity(position));
+    }
 
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                launchMovieDetailActivity(position);
+    private void loadFavoriteMovies() {
+        mainActivityViewModel = new ViewModelProvider(this).get(MainActivityViewModel.class);
+        mainActivityViewModel.getFavoriteMovies().observe(this, favoriteMovies -> {
+            if (null != favoriteMovies && favoriteMoviesSelected) {
+                MovieAdapter movieAdapter = new MovieAdapter(this, favoriteMovies);
+                gridView.setAdapter(movieAdapter);
+                movieList2 = favoriteMovies;
+                movieAdapter.notifyDataSetChanged();
+            } else {
+                // Set empty state text to display "No Internet Connection."
+                emptyStateTextView.setText(R.string.no_internet_connection);
             }
         });
     }
@@ -100,20 +113,21 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 if (internet) {
                     // Get a reference to the LoaderManager, in order to interact with loaders.
                     LoaderManager loaderManager = LoaderManager.getInstance(MainActivity.this);
-                    if (resetLoader) {
-                        loaderManager.restartLoader(MOVIE_LOADER_ID, null, MainActivity.this);
-                    } else {
+                    if (!resetLoader) {
                         // Initialize the loader. Pass in the int ID constant defined above and pass in null for
                         // the bundle. Pass in this activity for the LoaderCallbacks parameter (which is valid
                         // because this activity implements the LoaderCallbacks interface).
                         loaderManager.initLoader(MOVIE_LOADER_ID, null, MainActivity.this);
+                    } else {
+                        // This means we are wanting to reload the movies. We need to restart the Loader
+                        // so it will fetch them and populate our UI.
+                        loaderManager.restartLoader(MOVIE_LOADER_ID, null, MainActivity.this);
                     }
-
-
+                    emptyStateTextView.setVisibility(View.GONE);
                 } else {
                     // Set empty state text to display "No Internet Connection."
-//                    emptyStateTextView.setText(R.string.no_internet_connection);
                     emptyStateTextView.setText(R.string.no_internet_connection);
+                    emptyStateTextView.setVisibility(View.VISIBLE);
                 }
             }
         });
@@ -133,14 +147,16 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         // data set.
         if (movieList != null && !movieList.isEmpty()) {
 
-            MovieAdapter movieAdapter = new MovieAdapter(this, movieList);
+            movieAdapter = new MovieAdapter(this, movieList);
             gridView.setAdapter(movieAdapter);
             movieList2 = movieList;
+            emptyStateTextView.setVisibility(View.GONE);
 
         } else {
 
             // Set empty state text to display "No Movies found."
             emptyStateTextView.setText(R.string.no_movies);
+            emptyStateTextView.setVisibility(View.VISIBLE);
         }
     }
 
@@ -190,7 +206,10 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             case R.id.menu_favorites:
                 mostPopularSelected = false;
                 topRatedSelected = false;
+                favoriteMoviesSelected = true;
                 queryType = FAVORITES;
+                setTitle(R.string.primary_menu_favorites_title);
+                loadFavoriteMovies();
                 break;
         }
         saveSortOrder(queryType);
@@ -206,7 +225,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         startActivity(intent);
     }
 
-//    @Override
+    //    @Override
 //    protected void onDestroy() {
 //        super.onDestroy();
 //        // Unregister VisualizerActivity as an OnPreferenceChangedListener to avoid any memory leaks.
