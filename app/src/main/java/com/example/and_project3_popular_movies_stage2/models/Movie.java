@@ -9,8 +9,6 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
-import java.util.List;
-
 @Entity(tableName = "movies_table")
 public class Movie implements Parcelable {
     public static final String PAGE_KEY = "page";
@@ -56,11 +54,6 @@ public class Movie implements Parcelable {
     private String overview;
     private String releaseDate;
     private String isFavorite;
-//    private String reviewId;
-//    private String reviewAuthor;
-//    private String reviewContent;
-//    private String reviewUrl;
-//    private List<Trailer> movieTrailers;
 
     private Movie(Parcel in) {
         page = in.readString();
@@ -80,11 +73,6 @@ public class Movie implements Parcelable {
         adult = in.readString();
         overview = in.readString();
         releaseDate = in.readString();
-//        isFavorite = in.readString();
-//        reviewId = in.readString();
-//        reviewAuthor = in.readString();
-//        reviewContent = in.readString();
-//        reviewUrl = in.readString();
     }
 
     @Ignore
@@ -112,11 +100,6 @@ public class Movie implements Parcelable {
         this.adult = adult;
         this.overview = overview;
         this.releaseDate = releaseDate;
-//        this.isFavorite = isFavorite;
-//        this.reviewId = reviewId;
-//        this.reviewAuthor = reviewAuthor;
-//        this.reviewContent = reviewContent;
-//        this.reviewUrl = reviewUrl;
     }
 
     @Override
@@ -144,11 +127,6 @@ public class Movie implements Parcelable {
         dest.writeString(adult);
         dest.writeString(overview);
         dest.writeString(releaseDate);
-//        dest.writeString(isFavorite);
-//        dest.writeString(reviewId);
-//        dest.writeString(reviewAuthor);
-//        dest.writeString(reviewContent);
-//        dest.writeString(reviewUrl);
     }
 
     public String getPage() {
@@ -294,41 +272,10 @@ public class Movie implements Parcelable {
     public void setIsFavorite(String isFavorite) {
         this.isFavorite = isFavorite;
     }
+
     public String getIsFavorite() {
         return isFavorite;
     }
-
-//    public String getReviewId() {
-//        return reviewId;
-//    }
-//
-//    public void setReviewId(String reviewId) {
-//        this.reviewId = reviewId;
-//    }
-//
-//    public String getReviewAuthor() {
-//        return reviewAuthor;
-//    }
-//
-//    public void setReviewAuthor(String reviewAuthor) {
-//        this.reviewAuthor = reviewAuthor;
-//    }
-//
-//    public String getReviewContent() {
-//        return reviewContent;
-//    }
-//
-//    public void setReviewContent(String reviewContent) {
-//        this.reviewContent = reviewContent;
-//    }
-//
-//    public String getReviewUrl() {
-//        return reviewUrl;
-//    }
-//
-//    public void setReviewUrl(String reviewUrl) {
-//        this.reviewUrl = reviewUrl;
-//    }
 
     public void setFavoriteMovie(String favoriteMovie) {
         isFavorite = favoriteMovie;

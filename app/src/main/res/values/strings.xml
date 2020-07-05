@@ -35,6 +35,8 @@
     <string name="reviewer_label">Written By:</string>
     <string name="no_reviews_text">We\'re sorry but we were unable to find any reviews</string>
     <string name="no_videos_text">We\'re sorry but we were unable to find any videos</string>
+    <string name="no_favorites_text">We\'re sorry but we were unable to find any favorites.  Please
+        choose another sort order and pick some.</string>
     <string name="review_section_title">Reviews:</string>
     <string name="video_section_title">Videos:</string>
     <string name="primary_menu_top_rated">Sort by Top Rated</string>

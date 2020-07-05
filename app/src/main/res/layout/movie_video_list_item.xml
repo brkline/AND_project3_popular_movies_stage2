@@ -2,10 +2,10 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/video_list_constraint_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingBottom="@dimen/video_list_item_constraintlayout_paddingbottom"
-    android:id="@+id/video_list_constraint_layout">
+    android:paddingBottom="@dimen/video_list_item_constraintlayout_paddingbottom">
 
     <ImageView
         android:id="@+id/video_thumbnail_iv"
@@ -22,6 +22,7 @@
         android:id="@+id/video_title"
         android:layout_width="@dimen/video_title_layout_width"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/video_title_default_margin"
         android:layout_marginLeft="@dimen/video_title_default_margin"
         android:gravity="center"
         app:layout_constraintEnd_toEndOf="@+id/video_thumbnail_iv"
@@ -29,8 +30,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/video_thumbnail_iv"
-        tools:text="Movie Trailer Title"
-        android:layout_marginStart="@dimen/video_title_default_margin" />
+        tools:text="Movie Trailer Title" />
 
     <ImageButton
         android:id="@+id/video_play_button"

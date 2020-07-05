@@ -1,18 +1,13 @@
 package com.example.and_project3_popular_movies_stage2.utils;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.net.Uri;
-import android.os.AsyncTask;
 
 import androidx.loader.content.AsyncTaskLoader;
-import androidx.preference.PreferenceManager;
 
-import com.example.and_project3_popular_movies_stage2.R;
 import com.example.and_project3_popular_movies_stage2.models.Movie;
 import com.example.and_project3_popular_movies_stage2.models.Review;
 
-import java.net.URL;
 import java.util.List;
 
 public class ReviewLoader extends AsyncTaskLoader<List<Review>> {

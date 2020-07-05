@@ -52,4 +52,10 @@
     <dimen name="toggle_favorite_btn_margintop">16dp</dimen>
     <dimen name="toggle_favorite_btn_marginleft">36dp</dimen>
     <dimen name="video_list_item_constraintlayout_paddingbottom">24dp</dimen>
+    <dimen name="movie_detail_review_recyclerview_height">300dp</dimen>
+    <dimen name="movie_detail_review_recyclerview_marginstart">8dp</dimen>
+    <dimen name="movie_detail_review_recyclerview_marginleft">8dp</dimen>
+    <dimen name="movie_detail_review_recyclerview_paddingleft">8dp</dimen>
+    <dimen name="movie_detail_review_recyclerview_paddingright">8dp</dimen>
+    <dimen name="movie_detail_review_video_section_title_tv_layout_margintop">24dp</dimen>
 </resources>

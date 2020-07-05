@@ -1,31 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:paddingBottom="16dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/review_list_constraint_layout">
+    android:id="@+id/review_list_constraint_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="16dp">
 
     <TextView
         android:id="@+id/reviewer_label_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         android:text="@string/reviewer_label"
-        android:textStyle="bold"/>
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/reviewer_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toRightOf="@+id/reviewer_label_tv"
-        android:layout_marginLeft="@dimen/movie_review_default_margin"
-        tools:text="Jim Bob"
         android:layout_marginStart="@dimen/movie_review_default_margin"
-        android:layout_marginBottom="@dimen/movie_review_default_margin"/>
+        android:layout_marginLeft="@dimen/movie_review_default_margin"
+        android:layout_marginBottom="@dimen/movie_review_default_margin"
+        app:layout_constraintLeft_toRightOf="@+id/reviewer_label_tv"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Jim Bob" />
 
 
     <TextView
@@ -33,19 +33,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/review_content_textview_marginbottom"
+        android:paddingEnd="@dimen/review_content_default_padding"
         android:paddingRight="@dimen/review_content_default_padding"
-        app:layout_constraintTop_toBottomOf="@+id/reviewer_label_tv"
         app:layout_constraintLeft_toLeftOf="parent"
-        tools:text="This is a review"
-        android:paddingEnd="@dimen/review_content_default_padding" />
+        app:layout_constraintTop_toBottomOf="@+id/reviewer_label_tv"
+        tools:text="This is a review" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="2dp"
+        android:layout_marginTop="8dp"
         android:background="@color/colorPrimary"
-        app:layout_constraintTop_toBottomOf="@+id/review_content_tv"
-        android:layout_marginTop="8dp"/>
-
+        app:layout_constraintTop_toBottomOf="@+id/review_content_tv" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -19,7 +19,8 @@ public class MovieDetailActivityViewModel extends AndroidViewModel {
     }
 
     public LiveData<List<Movie>> isInDb(String movieId) {
-        return movieRepository.isInDb(movieId);}
+        return movieRepository.isInDb(movieId);
+    }
 
     public void insertFavoriteMovie(Movie movie) {
         movieRepository.insertFavoriteMovie(movie);
@@ -28,8 +29,4 @@ public class MovieDetailActivityViewModel extends AndroidViewModel {
     public void deleteFavoriteMovie(Movie movie) {
         movieRepository.deleteFavoriteMovie(movie);
     }
-
-//    public void updateFavoriteMovie(String movieId, boolean isFavorite) {
-//        movieRepository.updateFavoriteMovie(movieId, isFavorite);
-//    }
 }

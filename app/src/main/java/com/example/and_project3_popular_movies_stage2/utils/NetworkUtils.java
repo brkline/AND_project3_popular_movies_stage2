@@ -287,10 +287,10 @@ public class NetworkUtils {
 
                     // Create a new {@link Trailer} object
                     Video video = new Video(videoId,
-                                            videoKey,
-                                            videoSite,
-                                            videoTitle,
-                                            videoType);
+                            videoKey,
+                            videoSite,
+                            videoTitle,
+                            videoType);
 
                     // Add the new {@link Trailer} to the list of trailers.
                     videos.add(video);

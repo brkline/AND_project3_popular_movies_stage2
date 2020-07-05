@@ -2,13 +2,9 @@ package com.example.and_project3_popular_movies_stage2.data;
 
 import android.content.Context;
 
-import androidx.annotation.NonNull;
 import androidx.room.Database;
-import androidx.room.DatabaseConfiguration;
-import androidx.room.InvalidationTracker;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
-import androidx.sqlite.db.SupportSQLiteOpenHelper;
 
 import com.example.and_project3_popular_movies_stage2.models.Movie;
 
@@ -19,6 +15,7 @@ import java.util.concurrent.Executors;
 public abstract class MovieDatabase extends RoomDatabase {
 
     public abstract MovieDao movieDao();
+
     private static final String DATABASE_NAME = "movie_database";
 
     private static volatile MovieDatabase INSTANCE;

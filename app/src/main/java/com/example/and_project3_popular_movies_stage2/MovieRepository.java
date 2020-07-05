@@ -9,13 +9,11 @@ import com.example.and_project3_popular_movies_stage2.data.MovieDatabase;
 import com.example.and_project3_popular_movies_stage2.models.Movie;
 
 import java.util.List;
-import java.util.concurrent.ExecutorService;
 
 class MovieRepository {
 
     private MovieDao movieDao;
     private LiveData<List<Movie>> favoriteMovies;
-    private ExecutorService executorService;
 
     public MovieRepository(Application application) {
         movieDao = MovieDatabase.getDatabase(application).movieDao();
@@ -37,12 +35,6 @@ class MovieRepository {
             movieDao.deleteFavoriteMovie(movie);
         });
     }
-
-//    public void updateFavoriteMovie(String movieId, boolean isFavorite) {
-//        MovieDatabase.databaseWriteExecture.execute(() -> {
-//            movieDao.updateFavoriteMovie(movieId, isFavorite);
-//        });
-//    }
 
     public LiveData<List<Movie>> isInDb(String movieId) {
         return movieDao.isInDb(movieId);

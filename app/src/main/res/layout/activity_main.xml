@@ -2,31 +2,31 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_constraint_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    android:id="@+id/main_constraint_layout">
+    tools:context=".MainActivity">
 
-  <GridView
-      android:id="@+id/main_fragment_gv"
-      android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      android:columnWidth="@dimen/main_fragment_gv_columnWidth"
-      android:horizontalSpacing="@dimen/main_fragment_gv_horizontalSpacing"
-      android:numColumns="auto_fit"
-      android:padding="@dimen/main_fragment_gv_padding"
-      android:stretchMode="columnWidth"
-      android:verticalSpacing="@dimen/main_fragment_gv_verticalSpacing" />
+    <GridView
+        android:id="@+id/main_fragment_gv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:columnWidth="@dimen/main_fragment_gv_columnWidth"
+        android:horizontalSpacing="@dimen/main_fragment_gv_horizontalSpacing"
+        android:numColumns="auto_fit"
+        android:padding="@dimen/main_fragment_gv_padding"
+        android:stretchMode="columnWidth"
+        android:verticalSpacing="@dimen/main_fragment_gv_verticalSpacing" />
 
-  <!-- Empty view is only visible when the list has no items. -->
-  <TextView
-      android:id="@+id/empty_view"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:layout_centerInParent="true"
-      android:padding="@dimen/empty_view_padding"
-      android:textAppearance="?android:textAppearanceMedium"
-      app:layout_constraintBottom_toBottomOf="parent"
-      app:layout_constraintTop_toTopOf="parent" />
+    <!-- Empty view is only visible when the list has no items. -->
+    <TextView
+        android:id="@+id/empty_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:padding="@dimen/empty_view_padding"
+        android:textAppearance="?android:textAppearanceMedium"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -31,7 +31,4 @@ public interface MovieDao {
 
     @Query("SELECT * FROM movies_table")
     LiveData<List<Movie>> getAllFavoriteMovies();
-
-//    @Query("UPDATE movies_table SET isFavorite = :isFavorite WHERE id = :movieId")
-//    void updateFavoriteMovie(String movieId, boolean isFavorite);
 }

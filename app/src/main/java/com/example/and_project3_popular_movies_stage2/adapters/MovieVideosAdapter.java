@@ -27,7 +27,6 @@ public class MovieVideosAdapter extends RecyclerView.Adapter<MovieVideosAdapter.
 
     private List<Video> movieVideos;
     private Context context;
-//    public final static String YOUTUBE_BASE_URL = "http://www.youtube.com/watch?v=";
     public final static String YOUTUBE_BASE_URL = "https://www.youtube.com/watch?v=";
     public final static String YOUTUBE_BASE_IMAGE_URL = "https://img.youtube.com/vi/";
     public final static String YOUTUBE_IMAGE_EXTENSION = "/0.jpg";
@@ -47,11 +46,10 @@ public class MovieVideosAdapter extends RecyclerView.Adapter<MovieVideosAdapter.
     @Override
     public void onBindViewHolder(@NonNull MovieVideoViewHolder holder, int position) {
 
-//        final Trailer trailer = movieTrailers.get(position);
         holder.bindTrailer(movieVideos.get(position));
     }
 
-    class MovieVideoViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    class MovieVideoViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         @BindView(R.id.video_thumbnail_iv)
         ImageView videoThumbnail;

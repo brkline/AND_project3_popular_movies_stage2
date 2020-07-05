@@ -91,14 +91,16 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     private void loadFavoriteMovies() {
         mainActivityViewModel = new ViewModelProvider(this).get(MainActivityViewModel.class);
         mainActivityViewModel.getFavoriteMovies().observe(this, favoriteMovies -> {
-            if (null != favoriteMovies && favoriteMoviesSelected) {
+            if (favoriteMovies.size() != 0 && favoriteMoviesSelected) {
                 MovieAdapter movieAdapter = new MovieAdapter(this, favoriteMovies);
                 gridView.setAdapter(movieAdapter);
                 movieList2 = favoriteMovies;
                 movieAdapter.notifyDataSetChanged();
+                emptyStateTextView.setVisibility(View.GONE);
             } else {
                 // Set empty state text to display "No Internet Connection."
-                emptyStateTextView.setText(R.string.no_internet_connection);
+                emptyStateTextView.setText(R.string.no_favorites_text);
+                emptyStateTextView.setVisibility(View.VISIBLE);
             }
         });
     }

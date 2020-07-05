@@ -3,7 +3,6 @@ package com.example.and_project3_popular_movies_stage2;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
@@ -12,7 +11,6 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NavUtils;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -50,9 +48,6 @@ public class MovieDetailActivity extends AppCompatActivity {
     private ReviewsAdapter movieReviewsAdapter;
     private MovieDetailActivityViewModel movieDetailActivityViewModel;
     private MovieVideosAdapter movieVideosAdapter;
-    private boolean mostPopularSelected;
-    private boolean topRatedSelected;
-//    private MovieDetailActivityViewModel movieDetailActivityViewModel;
 
     @BindView(R.id.review_rv)
     RecyclerView reviewRecyclerView;
@@ -245,33 +240,4 @@ public class MovieDetailActivity extends AppCompatActivity {
             }
         }
     }
-
-
-//    @Override
-//    protected void onSaveInstanceState(Bundle out) {
-//        out.putBoolean(MOST_POPULAR_SELECTED, mostPopularSelected);
-//        out.putBoolean(TOP_RATED_SELECTED, topRatedSelected);
-//        super.onSaveInstanceState(out);
-//    }
-
-//    private class setFavoriteToggle extends AsyncTask<String, Void, Boolean> {
-//
-//        @Override
-//        protected void onPostExecute(Boolean isFavorite) {
-//            if (isFavorite) {
-//                favoriteToggle.setChecked(true);
-//            }
-//        }
-//
-//        @Override
-//        protected Boolean doInBackground(String... strings) {
-//            if (strings.length == 0) {
-//                return null;
-//            }
-//
-//            String movieId = strings[0];
-//
-//            return movieDetailActivityViewModel.isFavorite(movieId);
-//        }
-//    }
 }
