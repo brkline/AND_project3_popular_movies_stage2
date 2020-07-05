@@ -34,8 +34,13 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     private static final int MOVIE_LOADER_ID = 1;
     private static final String POPULAR = "popular";
     private static final String TOP_RATED = "top_rated";
+    private static final String MOST_POPULAR_SELECTED = "MOST_POPULAR_SELECTED";
+    private static final String TOP_RATED_SELECTED = "TOP_RATED_SELECTED";
+    private static final String FAVORITES = "favorites";
 
     private List<Movie> movieList2;
+    private boolean mostPopularSelected;
+    private boolean topRatedSelected;
 
     @BindView(R.id.empty_view)
     public TextView emptyStateTextView;
@@ -45,23 +50,28 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     String queryType = POPULAR;
 
-    //    private GridView gridView;
-//    private TextView emptyStateTextView;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        activityMainBinding = ActivityMainBinding.inflate(getLayoutInflater());
-//        View view = activityMainBinding.getRoot();
+
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-//        queryType = POPULAR;
-//        emptyStateTextView = findViewById(R.id.empty_view);
-        loadMovies(false);
+        queryType = POPULAR;
+        setTitle(R.string.primary_menu_most_popular_title);
 
-        // sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-//        setupSharedPreferences();
+        String storedSortOrder = setupSharedPreferences();
+        if (!storedSortOrder.isEmpty()) {
+            queryType = storedSortOrder;
+        }
+        if (queryType.equalsIgnoreCase(POPULAR)) {
+            setTitle(R.string.primary_menu_most_popular_title);
+        } else if (queryType.equalsIgnoreCase(TOP_RATED)) {
+            setTitle(R.string.primary_menu_top_rated_title);
+        } else if (queryType.equalsIgnoreCase(FAVORITES)) {
+            setTitle(R.string.primary_menu_favorites_title);
+        }
+
+        loadMovies(false);
         // Get a reference to the GridView
 //        gridView = findViewById(R.id.main_fragment_gv);
 //        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -162,27 +172,28 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         int idOfMenuItemSelected = item.getItemId();
         switch (idOfMenuItemSelected) {
             case R.id.menu_popular:
-//                mostPopularSelected = true;
-//                topRatedSelected = false;
+                mostPopularSelected = true;
+                topRatedSelected = false;
                 setTitle(R.string.primary_menu_most_popular_title);
                 queryType = POPULAR;
 //                loadMovies(queryType);
                 loadMovies(true);
                 break;
             case R.id.menu_top_rated:
-//                mostPopularSelected = false;
-//                topRatedSelected = true;
+                mostPopularSelected = false;
+                topRatedSelected = true;
                 setTitle(R.string.primary_menu_top_rated_title);
                 queryType = TOP_RATED;
 //                loadMovies(queryType);
                 loadMovies(true);
                 break;
             case R.id.menu_favorites:
-//                mostPopularSelected = false;
-//                topRatedSelected = false;
-//                queryType = FAVORITES;
+                mostPopularSelected = false;
+                topRatedSelected = false;
+                queryType = FAVORITES;
                 break;
         }
+        saveSortOrder(queryType);
         return super.onOptionsItemSelected(item);
     }
 
@@ -203,15 +214,20 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 //                .unregisterOnSharedPreferenceChangeListener(this);
 //    }
 //
-//    private void setupSharedPreferences() {
-//        // Get all of the values from shared preferences to set it up
-//        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-//        String sortOrderSelected = sharedPreferences.getString(getString(R.string
-//                .movie_settings_sort_order_key), getString(R.string.movie_settings_sort_label1));
-//        setTitle(sortOrderSelected);
-//        // Register the listener
-//        sharedPreferences.registerOnSharedPreferenceChangeListener(this);
-//    }
+    private String setupSharedPreferences() {
+        // Get all of the values from shared preferences to set it up
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        //        setTitle(sortOrderSelected);
+        return sharedPreferences.getString(getString(R.string
+                .movie_settings_sort_order_key), POPULAR);
+    }
+
+    private void saveSortOrder(String sortOrderSelected) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor sharedPrefEditor = sharedPreferences.edit();
+        sharedPrefEditor.putString(getString(R.string.movie_settings_sort_order_key), sortOrderSelected);
+        sharedPrefEditor.apply();
+    }
 //
 //    @Override
 //    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
@@ -220,4 +236,11 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 //                .movie_settings_sort_order_key), getString(R.string.movie_settings_sort_default));
 //        setTitle(sortOrderSelected);
 //    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle out) {
+        out.putBoolean(MOST_POPULAR_SELECTED, mostPopularSelected);
+        out.putBoolean(TOP_RATED_SELECTED, topRatedSelected);
+        super.onSaveInstanceState(out);
+    }
 }

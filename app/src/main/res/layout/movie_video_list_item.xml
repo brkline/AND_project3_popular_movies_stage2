@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingBottom="@dimen/video_list_item_constraintlayout_paddingbottom">
+    android:paddingBottom="@dimen/video_list_item_constraintlayout_paddingbottom"
+    android:id="@+id/video_list_constraint_layout">
 
     <ImageView
         android:id="@+id/video_thumbnail_iv"
