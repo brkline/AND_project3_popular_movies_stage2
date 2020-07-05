@@ -32,6 +32,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     // Constant value for the movie item loader ID.
     private static final int MOVIE_LOADER_ID = 1;
+    private static final String POPULAR = "popular";
+    private static final String TOP_RATED = "top_rated";
 
     private List<Movie> movieList2;
 
@@ -41,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @BindView(R.id.main_fragment_gv)
     public GridView gridView;
 
+    String queryType = POPULAR;
 
     //    private GridView gridView;
 //    private TextView emptyStateTextView;
@@ -53,8 +56,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 //        View view = activityMainBinding.getRoot();
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+//        queryType = POPULAR;
 //        emptyStateTextView = findViewById(R.id.empty_view);
-        loadMovies();
+        loadMovies(false);
 
         // sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 //        setupSharedPreferences();
@@ -76,7 +80,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         });
     }
 
-    private void loadMovies() {
+    private void loadMovies(boolean resetLoader) {
         // CheckIfOnline class based on https://stackoverflow.com/a/27312494
         new CheckIfOnline(new CheckIfOnline.Consumer() {
             // Anonymous class created using https://stackoverflow.com/a/40826752
@@ -86,11 +90,15 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 if (internet) {
                     // Get a reference to the LoaderManager, in order to interact with loaders.
                     LoaderManager loaderManager = LoaderManager.getInstance(MainActivity.this);
+                    if (resetLoader) {
+                        loaderManager.restartLoader(MOVIE_LOADER_ID, null, MainActivity.this);
+                    } else {
+                        // Initialize the loader. Pass in the int ID constant defined above and pass in null for
+                        // the bundle. Pass in this activity for the LoaderCallbacks parameter (which is valid
+                        // because this activity implements the LoaderCallbacks interface).
+                        loaderManager.initLoader(MOVIE_LOADER_ID, null, MainActivity.this);
+                    }
 
-                    // Initialize the loader. Pass in the int ID constant defined above and pass in null for
-                    // the bundle. Pass in this activity for the LoaderCallbacks parameter (which is valid
-                    // because this activity implements the LoaderCallbacks interface).
-                    loaderManager.initLoader(MOVIE_LOADER_ID, null, MainActivity.this);
 
                 } else {
                     // Set empty state text to display "No Internet Connection."
@@ -105,7 +113,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @Override
     public Loader<List<Movie>> onCreateLoader(int i, @Nullable Bundle bundle) {
         String url = Movie.THEMOVIEDB_REQUEST_URL;
-        return new MovieLoader(this, url);
+        return new MovieLoader(this, url, queryType);
     }
 
     @Override
@@ -157,15 +165,17 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 //                mostPopularSelected = true;
 //                topRatedSelected = false;
                 setTitle(R.string.primary_menu_most_popular_title);
-//                queryType = POPULAR;
+                queryType = POPULAR;
 //                loadMovies(queryType);
+                loadMovies(true);
                 break;
             case R.id.menu_top_rated:
 //                mostPopularSelected = false;
 //                topRatedSelected = true;
                 setTitle(R.string.primary_menu_top_rated_title);
-//                queryType = TOP_RATED;
+                queryType = TOP_RATED;
 //                loadMovies(queryType);
+                loadMovies(true);
                 break;
             case R.id.menu_favorites:
 //                mostPopularSelected = false;

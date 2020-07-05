@@ -17,6 +17,7 @@ public class MovieLoader extends AsyncTaskLoader<List<Movie>> {
      * Query URL
      */
     private String url;
+    private String queryType;
 
     /**
      * Constructs a new {@link MovieLoader}.
@@ -24,9 +25,10 @@ public class MovieLoader extends AsyncTaskLoader<List<Movie>> {
      * @param context of the activity
      * @param url     to load data from
      */
-    public MovieLoader(Context context, String url) {
+    public MovieLoader(Context context, String url, String queryType) {
         super(context);
         this.url = url;
+        this.queryType = queryType;
     }
 
     @Override
@@ -42,10 +44,10 @@ public class MovieLoader extends AsyncTaskLoader<List<Movie>> {
         if (url == null) {
             return null;
         }
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
-
-        String sortOrderSelected = sharedPrefs.getString(getContext().getString(R.string
-                .movie_settings_sort_key), getContext().getString(R.string.movie_settings_sort_default));
+//        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+//
+//        String sortOrderSelected = sharedPrefs.getString(getContext().getString(R.string
+//                .movie_settings_sort_key), getContext().getString(R.string.movie_settings_sort_default));
 
         // parse breaks apart the URI string that's passed into its parameter
         Uri baseUri = Uri.parse(Movie.THEMOVIEDB_REQUEST_URL);
@@ -54,7 +56,7 @@ public class MovieLoader extends AsyncTaskLoader<List<Movie>> {
         Uri.Builder uriBuilder = baseUri.buildUpon();
 
         // Append query parameter and its value.
-        uriBuilder.appendPath(sortOrderSelected);
+        uriBuilder.appendPath(queryType);
         uriBuilder.appendQueryParameter("api_key", Movie.API_KEY);
         url = uriBuilder.toString();
         // Perform the network request, parse the response, and extract a list of movies
