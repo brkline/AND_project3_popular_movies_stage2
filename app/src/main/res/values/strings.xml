@@ -38,7 +38,10 @@
     <string name="review_section_title">Reviews:</string>
     <string name="video_section_title">Videos:</string>
     <string name="primary_menu_top_rated">Sort by Top Rated</string>
+    <string name="primary_menu_top_rated_title">Top Rated</string>
     <string name="primary_menu_most_popular">Sort by Most Popular</string>
+    <string name="primary_menu_most_popular_title">Popular</string>
     <string name="primary_menu_show_favorites">Show Favorites</string>
+    <string name="primary_menu_favorites_title">Favorites</string>
 
 </resources>
