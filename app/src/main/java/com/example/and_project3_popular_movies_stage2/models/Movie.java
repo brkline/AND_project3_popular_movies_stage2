@@ -11,6 +11,14 @@ import androidx.room.PrimaryKey;
 
 @Entity(tableName = "movies_table")
 public class Movie implements Parcelable {
+
+    /**
+     * Get your own API key as instructed in the README.  Then,
+     * for the constant API_KEY below, replace the value
+     * "Get Your Own Key" with your API key.
+     */
+    public static final String API_KEY = "Get Your Own Key";
+
     public static final String PAGE_KEY = "page";
     public static final String TOTAL_RESULTS_KEY = "total_results";
     public static final String TOTAL_PAGES_KEY = "total_pages";
@@ -30,7 +38,6 @@ public class Movie implements Parcelable {
     public static final String RELEASE_DATE_KEY = "release_date";
     public static final String RESULTS_KEY = "results";
     public static final String THEMOVIEDB_REQUEST_URL = "https://api.themoviedb.org/3/movie";
-    public static final String API_KEY = "Get Your Own Key";
     private static final String BASE_IMAGE_URL = "https://image.tmdb.org/t/p";
     private static final String POSTER_SIZE = "w185";
 
