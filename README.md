@@ -1,4 +1,3 @@
-[![Known Vulnerabilities](https://snyk.io/test/github/brkline/AND_project3_popular_movies_stage2/badge.svg?targetFile=app/build.gradle)](https://snyk.io/test/github/brkline/AND_project3_popular_movies_stage2?targetFile=app/build.gradle)
 # AND Project 3 - Popular Movies Stage 2
 
 ## Project Overview
